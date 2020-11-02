@@ -1,3 +1,9 @@
+interface EmployeeWageComputationInterface
+{
+    public void assign_Company_Details(String name_of_Company, int wage_per_Hour, int maximum_Working_Days, int maximum_Working_Hours);
+
+    public void calculateTotalWage();
+}
 class CompanyEmpWage
 {
     // instance constants
@@ -33,7 +39,7 @@ class CompanyEmpWage
     }
 }
 
-public class EmployeeWageComputation
+class EmployeeWageComputation implements EmployeeWageComputationInterface
 {
     // class constants
     public static final int PART_TIME = 1;
@@ -49,7 +55,7 @@ public class EmployeeWageComputation
         index = 0;
     }
 
-    void assign_Company_Details(String name_of_Company, int wage_per_Hour, int maximum_Working_Days, int maximum_Working_Hours)
+    public void assign_Company_Details(String name_of_Company, int wage_per_Hour, int maximum_Working_Days, int maximum_Working_Hours)
     {
         companies_Array[index++] = new CompanyEmpWage(name_of_Company, wage_per_Hour, maximum_Working_Days, maximum_Working_Hours);
     }
@@ -72,17 +78,17 @@ public class EmployeeWageComputation
         }
     }
 
-    void total_Wage_Computation()
+    public void calculateTotalWage()
     {
         for (CompanyEmpWage individual_company : companies_Array)
         {
-            int total_earned_Wage = total_Wage_Computation(individual_company);
+            int total_earned_Wage = calculateTotalWage(individual_company);
             individual_company.setTotalEmployeeWage(total_earned_Wage);
             System.out.println(individual_company);
         }
     }
 
-    int total_Wage_Computation(CompanyEmpWage companyEmpWage)
+    int calculateTotalWage(CompanyEmpWage companyEmpWage)
     {
         System.out.println("*******************************************************************************************");
         System.out.printf("WAGE BREAKDOWN AND TOTAL WAGE OF AN " +companyEmpWage.COMPANY_NAME + " EMPLOYEE IS GIVEN BELOW : \n");
@@ -109,6 +115,6 @@ public class EmployeeWageComputation
         employeeWageComputation.assign_Company_Details("UBER", 6, 25, 150);
         employeeWageComputation.assign_Company_Details("WIPRO", 9, 35, 120);
         employeeWageComputation.assign_Company_Details("XIOAMI", 5, 30, 100);
-        employeeWageComputation.total_Wage_Computation();
+        employeeWageComputation.calculateTotalWage();
     }
 }
