@@ -1,8 +1,9 @@
+import java.util.ArrayList;
 interface EmployeeWageComputationInterface
 {
     public void assign_Company_Details(String name_of_Company, int wage_per_Hour, int maximum_Working_Days, int maximum_Working_Hours);
 
-    public void calculateTotalWage();
+    public void total_Wage_Computation();
 }
 class CompanyEmpWage
 {
@@ -46,18 +47,17 @@ class EmployeeWageComputation implements EmployeeWageComputationInterface
     public static final int FULL_TIME = 2;
     // instance variables
     int noOfCompanies, index;
-    CompanyEmpWage[] companies_Array; //declaring array
+    ArrayList<CompanyEmpWage>companies_ArrayList;  //declaring array
 
-    public EmployeeWageComputation(int noOfCompanies)
+    public EmployeeWageComputation()
     {
-        this.noOfCompanies = noOfCompanies;
-        companies_Array = new CompanyEmpWage[noOfCompanies]; //declaring size of array
-        index = 0;
+    	companies_ArrayList = new ArrayList<>();
     }
 
     public void assign_Company_Details(String name_of_Company, int wage_per_Hour, int maximum_Working_Days, int maximum_Working_Hours)
     {
-        companies_Array[index++] = new CompanyEmpWage(name_of_Company, wage_per_Hour, maximum_Working_Days, maximum_Working_Hours);
+    	CompanyEmpWage company = new CompanyEmpWage(name_of_Company, wage_per_Hour, maximum_Working_Days, maximum_Working_Hours);
+    	companies_ArrayList.add(company); //adding companies to ArrayList
     }
 
     int generateEmployeeType()
@@ -78,17 +78,17 @@ class EmployeeWageComputation implements EmployeeWageComputationInterface
         }
     }
 
-    public void calculateTotalWage()
+    public void total_Wage_Computation()
     {
-        for (CompanyEmpWage individual_company : companies_Array)
+        for (CompanyEmpWage individual_company : companies_ArrayList)
         {
-            int total_earned_Wage = calculateTotalWage(individual_company);
+            int total_earned_Wage = total_Wage_Computation(individual_company);
             individual_company.setTotalEmployeeWage(total_earned_Wage);
             System.out.println(individual_company);
         }
     }
 
-    int calculateTotalWage(CompanyEmpWage companyEmpWage)
+    int total_Wage_Computation(CompanyEmpWage companyEmpWage)
     {
         System.out.println("*******************************************************************************************");
         System.out.printf("WAGE BREAKDOWN AND TOTAL WAGE OF AN " +companyEmpWage.COMPANY_NAME + " EMPLOYEE IS GIVEN BELOW : \n");
@@ -111,10 +111,9 @@ class EmployeeWageComputation implements EmployeeWageComputationInterface
 
     public static void main(String args[])
     {
-        EmployeeWageComputation employeeWageComputation = new EmployeeWageComputation(3); // to initialize array of fixed size
-        employeeWageComputation.assign_Company_Details("UBER", 6, 25, 150);
-        employeeWageComputation.assign_Company_Details("WIPRO", 9, 35, 120);
-        employeeWageComputation.assign_Company_Details("XIOAMI", 5, 30, 100);
-        employeeWageComputation.calculateTotalWage();
+        EmployeeWageComputation employeeWageComputation = new EmployeeWageComputation();         employeeWageComputation.assign_Company_Details("RELIANCE", 6, 25, 150);
+        employeeWageComputation.assign_Company_Details("IBM", 9, 35, 120);
+        employeeWageComputation.assign_Company_Details("FACEBOOK", 5, 30, 100);
+        employeeWageComputation.total_Wage_Computation();
     }
 }
