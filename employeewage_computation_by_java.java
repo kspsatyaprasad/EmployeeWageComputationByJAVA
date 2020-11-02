@@ -1,4 +1,4 @@
-public class EmployeeWageComputation_UC_3
+public class EmployeeWageComputation_UC_4
 {
     public static void main(String args[])
     {
@@ -6,20 +6,21 @@ public class EmployeeWageComputation_UC_3
         final int FULL_TIME = 2;
         final int WAGE_PER_HOUR = 20;
         int type_of_Employee = (int) (Math.random() * 100) % 3;
-        int hours_Worked = 0;
-        if (type_of_Employee == FULL_TIME)
+        int hours_Worked =0;
+        switch (type_of_Employee)
         {
-            System.out.println("Employee is Present Full time");
-            hours_Worked = 8;
-        } else if (type_of_Employee == PART_TIME)
-        {
-            System.out.println("Employee is Present Part time");
-            hours_Worked = 4;
-        } else
-        {
-            System.out.println("Employee is Absent");
+            case FULL_TIME:
+                System.out.println("Employee is Present and he worked  Full time");
+                hours_Worked = 8;
+                break;
+            case PART_TIME:
+                System.out.println("Employee is Present and he worked Part time");
+                hours_Worked = 4;
+                break;
+            default:
+                System.out.println("Employee is Absent");    
         }
         int wage = hours_Worked * WAGE_PER_HOUR;
-        System.out.println("Daily Wage of Employee is " + wage);
+        System.out.println("Employee Daily Wage is " + wage);
     }
 }
