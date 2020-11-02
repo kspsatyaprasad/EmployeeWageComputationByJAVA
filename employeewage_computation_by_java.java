@@ -121,6 +121,10 @@ class EmployeeWageComputation implements EmployeeWageComputationInterface
         }
 
     }
+    public int answer_Query(String companyName) 
+    {
+        return totalWages_of_companies.get(companyName);
+    }
     public static void main(String args[])
     {
         EmployeeWageComputation employeeWageComputation = new EmployeeWageComputation();   
@@ -129,5 +133,8 @@ class EmployeeWageComputation implements EmployeeWageComputationInterface
         employeeWageComputation.assign_Company_Details("TECHMAHINDRA", 5, 30, 100);
         employeeWageComputation.total_Wage_Computation();
         employeeWageComputation.printTotalEmpWages();
+        String ask_Query = "HCL";
+        int totalWage = employeeWageComputation.answer_Query(ask_Query);
+        System.out.println("Queried company is  " + ask_Query +" and Total Wage for " + ask_Query + " company Employee is " + totalWage);
     }
 }
