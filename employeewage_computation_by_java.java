@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 interface EmployeeWageComputationInterface
 {
     public void assign_Company_Details(String name_of_Company, int wage_per_Hour, int maximum_Working_Days, int maximum_Working_Hours);
@@ -48,16 +49,18 @@ class EmployeeWageComputation implements EmployeeWageComputationInterface
     // instance variables
     int noOfCompanies, index;
     ArrayList<CompanyEmpWage>companies_ArrayList;  //declaring array
-
+    HashMap<String, Integer> totalWages_of_companies; //declaring hashmap
     public EmployeeWageComputation()
     {
     	companies_ArrayList = new ArrayList<>();
+    	totalWages_of_companies = new HashMap<>();
     }
 
     public void assign_Company_Details(String name_of_Company, int wage_per_Hour, int maximum_Working_Days, int maximum_Working_Hours)
     {
     	CompanyEmpWage company = new CompanyEmpWage(name_of_Company, wage_per_Hour, maximum_Working_Days, maximum_Working_Hours);
     	companies_ArrayList.add(company); //adding companies to ArrayList
+    	totalWages_of_companies.put(name_of_Company,0);
     }
 
     int generateEmployeeType()
@@ -105,15 +108,26 @@ class EmployeeWageComputation implements EmployeeWageComputationInterface
             System.out.println("------------------------------------------------------------------------------------------");
 
         }
-        
+        totalWages_of_companies.put(companyEmpWage.COMPANY_NAME, total_earned_Wage);
         return total_earned_Wage;
     }
+    void printTotalEmpWages()
+    {
+        System.out.println("*******************************************************************************************");
+        System.out.println("Total Wages of Employees in different companies are:");
+        for (String companyName : totalWages_of_companies.keySet())
+        {
+            System.out.println(companyName + ": " + totalWages_of_companies.get(companyName));
+        }
 
+    }
     public static void main(String args[])
     {
-        EmployeeWageComputation employeeWageComputation = new EmployeeWageComputation();         employeeWageComputation.assign_Company_Details("RELIANCE", 6, 25, 150);
-        employeeWageComputation.assign_Company_Details("IBM", 9, 35, 120);
-        employeeWageComputation.assign_Company_Details("FACEBOOK", 5, 30, 100);
+        EmployeeWageComputation employeeWageComputation = new EmployeeWageComputation();   
+        employeeWageComputation.assign_Company_Details("INFOSYS", 6, 25, 150);
+        employeeWageComputation.assign_Company_Details("HCL", 9, 35, 120);
+        employeeWageComputation.assign_Company_Details("TECHMAHINDRA", 5, 30, 100);
         employeeWageComputation.total_Wage_Computation();
+        employeeWageComputation.printTotalEmpWages();
     }
 }
