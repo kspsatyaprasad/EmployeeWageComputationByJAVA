@@ -1,8 +1,5 @@
-public class EmployeeWageComputation
+class CompanyEmpWage
 {
-    // class constants
-    static final int PART_TIME = 1;
-    static final int FULL_TIME = 2;
     // instance constants
     final String COMPANY_NAME;
     final int WAGE_PER_HOUR;
@@ -11,41 +8,20 @@ public class EmployeeWageComputation
     // instance variable
     int total_earned_Wage;
 
-    EmployeeWageComputation(String name_of_Company, int wage_per_Hour, int maximum_Working_Days, int maximum_Working_Hours)
+    CompanyEmpWage(String name_of_Company, int wage_per_Hour, int maximum_Working_Days, int maximum_Working_Hours)
     {
-    WAGE_PER_HOUR = wage_per_Hour;
-    MAX_WORKING_DAYS = maximum_Working_Days;
-    MAX_WORKING_HOURS = maximum_Working_Hours;
-    COMPANY_NAME = name_of_Company;
-    total_earned_Wage = 0;
+        COMPANY_NAME = name_of_Company;
+        WAGE_PER_HOUR = wage_per_Hour;
+        MAX_WORKING_DAYS = maximum_Working_Days;
+        MAX_WORKING_HOURS = maximum_Working_Hours;
+        total_earned_Wage = 0;
     }
-    void employee_TotalwageComputation() {
-    int workingHrs = 0;
-    for (int day = 1, total_hours_Worked = 0; day <= MAX_WORKING_DAYS
-            && total_hours_Worked < MAX_WORKING_HOURS; day++ )
+
+    void setTotalEmployeeWage(int total_earned_Wage)
     {
-  
-        int type_of_Employee = (int) (Math.random() * 100) % 3;
-        switch (type_of_Employee)
-        {
-        case FULL_TIME:
-            workingHrs = 8;
-            break;
-        case PART_TIME:
-            workingHrs = 4;
-            break;
-        default:
-            workingHrs = 0;
-            break;
-        }
-        int wage = workingHrs * WAGE_PER_HOUR;
-        total_earned_Wage += wage;
-        total_hours_Worked += workingHrs;
-        System.out.printf("For Day %d %s Employee Dailywage is %d for %d Hours worked and He worked %d Hours in a month until now\n", day, COMPANY_NAME, wage, workingHrs, total_hours_Worked + workingHrs);
-        System.out.println("------------------------------------------------------------------------------------------");
+    	this.total_earned_Wage = total_earned_Wage;
     }
-    
-    }
+
     public String toString()
     {
         System.out.println("Details of " + COMPANY_NAME + " employee");
@@ -55,19 +31,84 @@ public class EmployeeWageComputation
         System.out.println("Maximum working hours of "+COMPANY_NAME+ " Employee is "  + MAX_WORKING_HOURS);
         return "Total wage for a month of " + COMPANY_NAME + " employee is " + total_earned_Wage + "\n";
     }
+}
+
+public class EmployeeWageComputation
+{
+    // class constants
+    public static final int PART_TIME = 1;
+    public static final int FULL_TIME = 2;
+    // instance variables
+    int noOfCompanies, index;
+    CompanyEmpWage[] companies_Array; //declaring array
+
+    public EmployeeWageComputation(int noOfCompanies)
+    {
+        this.noOfCompanies = noOfCompanies;
+        companies_Array = new CompanyEmpWage[noOfCompanies]; //declaring size of array
+        index = 0;
+    }
+
+    void assign_Company_Details(String name_of_Company, int wage_per_Hour, int maximum_Working_Days, int maximum_Working_Hours)
+    {
+        companies_Array[index++] = new CompanyEmpWage(name_of_Company, wage_per_Hour, maximum_Working_Days, maximum_Working_Hours);
+    }
+
+    int generateEmployeeType()
+    {
+        return (int) (Math.random() * 100) % 3;
+    }
+
+    int getWorkingHrs(int type_of_Employee)
+    {
+        switch (type_of_Employee)
+        {
+        case FULL_TIME:
+            return 8;
+        case PART_TIME:
+            return 4;
+        default:
+            return 0;
+        }
+    }
+
+    void total_Wage_Computation()
+    {
+        for (CompanyEmpWage individual_company : companies_Array)
+        {
+            int total_earned_Wage = total_Wage_Computation(individual_company);
+            individual_company.setTotalEmployeeWage(total_earned_Wage);
+            System.out.println(individual_company);
+        }
+    }
+
+    int total_Wage_Computation(CompanyEmpWage companyEmpWage)
+    {
+        System.out.println("*******************************************************************************************");
+        System.out.printf("WAGE BREAKDOWN AND TOTAL WAGE OF AN " +companyEmpWage.COMPANY_NAME + " EMPLOYEE IS GIVEN BELOW : \n");
+        System.out.println("*******************************************************************************************");
+        int workingHrs, total_earned_Wage = 0;
+        for (int day = 1, total_hours_Worked = 0; day <= companyEmpWage.MAX_WORKING_DAYS
+                && total_hours_Worked <= companyEmpWage.MAX_WORKING_HOURS; day++, total_hours_Worked += workingHrs)
+        {
+            int type_of_Employee = generateEmployeeType();
+            workingHrs = getWorkingHrs(type_of_Employee);
+            int wage = workingHrs * companyEmpWage.WAGE_PER_HOUR;
+            total_earned_Wage += wage;
+            System.out.printf("For Day %d %s Employee Dailywage is %d for %d Hours worked and He worked %d Hours in a month until now\n", day, companyEmpWage.COMPANY_NAME, wage, workingHrs, total_hours_Worked + workingHrs);
+            System.out.println("------------------------------------------------------------------------------------------");
+
+        }
+        
+        return total_earned_Wage;
+    }
 
     public static void main(String args[])
     {
-        EmployeeWageComputation TCS = new EmployeeWageComputation("TCS", 10, 25, 200);
-        EmployeeWageComputation MPHASIS = new EmployeeWageComputation("MPHASIS", 5, 30, 100);
-        EmployeeWageComputation TESLA = new EmployeeWageComputation("TESLA", 4, 25, 150);
-
-        TCS.employee_TotalwageComputation();
-        System.out.println(TCS);
-        MPHASIS.employee_TotalwageComputation();
-        System.out.println(MPHASIS);
-        TESLA.employee_TotalwageComputation();
-        System.out.println(TESLA);
-        
+        EmployeeWageComputation employeeWageComputation = new EmployeeWageComputation(3); // to initialize array of fixed size
+        employeeWageComputation.assign_Company_Details("UBER", 6, 25, 150);
+        employeeWageComputation.assign_Company_Details("WIPRO", 9, 35, 120);
+        employeeWageComputation.assign_Company_Details("XIOAMI", 5, 30, 100);
+        employeeWageComputation.total_Wage_Computation();
     }
 }
