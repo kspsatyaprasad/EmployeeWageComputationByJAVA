@@ -111,7 +111,8 @@ class EmployeeWageComputation implements EmployeeWageComputationInterface
 
     public static void main(String args[])
     {
-        EmployeeWageComputation employeeWageComputation = new EmployeeWageComputation();         employeeWageComputation.assign_Company_Details("RELIANCE", 6, 25, 150);
+        EmployeeWageComputation employeeWageComputation = new EmployeeWageComputation();         
+		employeeWageComputation.assign_Company_Details("RELIANCE", 6, 25, 150);
         employeeWageComputation.assign_Company_Details("IBM", 9, 35, 120);
         employeeWageComputation.assign_Company_Details("FACEBOOK", 5, 30, 100);
         employeeWageComputation.total_Wage_Computation();
